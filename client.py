@@ -24,6 +24,7 @@ class MyClient(discord.Client):
 		print('Logged on as {0}!'.format(self.user))
 
 	async def on_message(self, message):
+		print('guild {0}'.format(message))
 		if message.content[0] == '~':
 			command = self.parse_command(message.content)
 			if command is None:
@@ -32,7 +33,7 @@ class MyClient(discord.Client):
 				await command(message)
 		elif message.content.split()[0] == 'send' and message.guild.id in active_chat:
 			b = active_chat[message.guild.id]
-			await self.send_msg(b.channel, message.content[5:])
+			await self.send_msg(b.channel, 'from {0}: {1}'.format(message.guild.name, message.content[5:]))
 	
 	async def try_chat(self, message):	
 		if(message.guild.id in active_chat):
